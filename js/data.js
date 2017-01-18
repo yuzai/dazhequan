@@ -1,0 +1,26 @@
+var s=[
+  {
+    name:'xiaobo',
+    text:'这是一个测试'
+  },
+  {
+    name:'xiaohuan',
+    text:'这是2个测试'
+  },
+  {
+    name:'xiaoxiao',
+    text:'这是3个测试'
+  },
+  {
+    name:'xiaoti',
+    text:'这是4个测试'
+  },
+  {
+    name:'xiaoai',
+    text:'这是5个测试'
+  },
+  {
+    name:'xiaobibi',
+    text:'这是6个测试'
+  }
+]
