@@ -1,52 +1,42 @@
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
-  margin: 0;
-  padding: 0; }
-
-body, button, input, select, textarea {
-  font: 12px/1.5tahoma, arial, \5b8b\4f53; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: 100%; }
-
-address, cite, dfn, em, var {
-  font-style: normal; }
-
-code, kbd, pre, samp {
-  font-family: couriernew, courier, monospace; }
-
-small {
-  font-size: 12px; }
-
-ul, ol {
-  list-style: none; }
-
-a {
-  text-decoration: none; }
-
-a:hover {
-  text-decoration: underline; }
-
-sup {
-  vertical-align: text-top; }
-
-sub {
-  vertical-align: text-bottom; }
-
-legend {
-  color: #000; }
-
-fieldset, img {
-  border: 0; }
-
-button, input, select, textarea {
-  font-size: 100%; }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
+@charset "UTF-8";
+html {
+  overflow-y: scroll; }
 
 body {
-  padding: 10px; }
+  margin: 0;
+  padding: 29px00;
+  font: 12px "宋体", sans-serif;
+  background: #ffffff; }
+
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, p {
+  padding: 0;
+  margin: 0; }
+
+table, td, tr, th {
+  font-size: 12px; }
+
+li {
+  list-style-type: none; }
+
+img {
+  vertical-align: top;
+  border: 0; }
+
+ol, ul {
+  list-style: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 12px;
+  font-weight: normal; }
+
+address, cite, code, em, th {
+  font-weight: normal;
+  font-style: normal; }
+
+body {
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 10px; }
 
 div#page {
   margin: auto;
@@ -56,9 +46,6 @@ div#page {
   position: relative;
   float: right; }
 
-.dropdown-toggle:focus {
-  outline: 0; }
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -66,7 +53,7 @@ div#page {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
+  width: 100%;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
@@ -83,7 +70,8 @@ div#page {
 
 .dropdown-menu > li > a {
   display: block;
-  padding: 3px 20px;
+  text-align: center;
+  padding: 3px 10px;
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;

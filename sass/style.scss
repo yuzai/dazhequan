@@ -1,20 +1,21 @@
 @import 'normal';
 
 body{
-  padding:10px;
+  padding-left:20%;
+  padding-right:20%;
+  padding-top:10px;
 }
+//居中
 div#page{
   margin:auto;
   width:70%;
 }
-
+//drop-down
 .dropdown {
   position: relative;
   float:right;
 }
-.dropdown-toggle:focus {
-  outline: 0;
-}
+//dropdown-menu
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -22,7 +23,7 @@ div#page{
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
+  width: 100%;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
@@ -40,7 +41,8 @@ div#page{
 
 .dropdown-menu > li > a {
   display: block;
-  padding: 3px 20px;
+  text-align:center;
+  padding: 3px 10px;
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
@@ -53,6 +55,7 @@ div#page{
   text-decoration: none;
   background-color: #f5f5f5;
 }
+
 .btn {
   display: inline-block;
   padding: 6px 12px;

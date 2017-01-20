@@ -13,9 +13,16 @@
       }else {
          element['on'+type]=handler;
       }
-  }
+  };
   method.ready = function(){
     var form = document.getElementById('form1');
     method.addevent(form,'submit',register);
+  };
+  method.ajax = function(data,url,methods,handler){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = handler.bind(null,xhr);
+    xhr.open(methods,url,true);
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.send(data);
   }
 })(window,window['method'] || (window['method']={}));
