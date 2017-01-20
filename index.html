@@ -2,20 +2,29 @@
 <html>
 
 <head>
-  <meta charset='utf-8'>
-  <title>登录</title>
-  <script src = 'js/main.js'></script>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>登录</title>
+    <link rel="stylesheet" href='css/style.css' >
+    <script src='js/method.js'></script>
+    <script src='js/Router.js'></script>
 </head>
 
 <body>
-  <nav>
-    <a href="#/register">注册</a>
-    <a href="#/login">登录</a>
-    <a href="#/logout">登出</a>
-    <a href="#/">主页</a>
-  </nav>
-  <script src='js/main.js'>
-  </script>
+    <nav class='dropdown'>
+      <button class='btn' onclick='dropdowntoogle()'>dropdown</button>
+      <ul class='dropdown-menu'>
+        <li><a href="#/register">注册</a></li>
+        <li><a href="#/login">登录</a></li>
+        <li><a href="#/logout">登出</a></li>
+        <li><a href="#/">主页</a></li>
+      </ul>
+    </nav>
+    <div style='clear:both'></div>
+    <div id='page'>
+    </div>
+    <script src='js/test.js'>
+    </script>
 </body>
 
 </html>
