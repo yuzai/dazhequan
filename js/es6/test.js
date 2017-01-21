@@ -35,6 +35,7 @@ router.route('/register',function(){
   page.innerHTML = form0;
   let form = document.getElementById('form0');
   method.addevent(form,'submit',(event)=>{
+    console.log(this);
     event.preventDefault();
     let form = event.target;
     let username = form.username.value;
