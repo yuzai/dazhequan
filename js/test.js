@@ -39,7 +39,7 @@ router.route('/register', function () {
       if (password1 === password2) method.ajax(JSON.stringify({ 'username': username, 'password': password1 }), 'http://localhost:8081/register', 'post', function (xhr) {
         if (xhr.readyState === 4) {
           if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304 || xhr.status === 0) {
-            console.log(xhr.responseText);
+            // console.log(xhr.responseText);
             if (xhr.responseText === 'no') {
               document.getElementById('userwarn').innerHTML = userwarn;
             } else if (xhr.responseText === 'yes') {
@@ -77,7 +77,6 @@ router.route('/logout', function () {
   page.innerHTML = logout;
 });
 router.init();
-console.log(router);
 method.addevent(window, 'click', function () {
   var dropmenu = document.getElementsByClassName('dropdown-menu')[0];
   dropmenu.style.display = 'none';
