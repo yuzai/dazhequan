@@ -1,46 +1,35 @@
 <html>
+
 <head>
     <meta charset="utf-8">
-    <script src='js/method.js'></script>
-    <script>
-
-      function init(){
-        document.getElementById('body').onclick = function(){console.log(this)};
-        var pElement = document.getElementsByTagName('p');
-        //console.log(typeof(pElement[0]));//object
-        for(var i=0;i<pElement.length;i++)
-        {
-          pElement[i].index = i;
-          pElement[i].onclick=function(){
-            console.log(this);
-            console.log(pElement);
-            alert(i+1)
-          }
-        }
-        function test2(){
-          var s=1;
-          var s3=3;
-        }
-        function test(){
-          var s=0;
-          var s1=1;
-          var s2=2;
-          var body=document.getElementById('body');
-          body.onclick=function(){
-            console.log(this)//body元素
-            console.log(s);//0
-            console.log(s1);//1
-            console.log(s3);//undefined
-          }
-        }
-        test();
-      }
-    </script>
 </head>
-<body onload = 'init()' id='body'>
-<p>段落1</p>
-<p>段落2</p>
-<p>段落3</p>
-<p>段落4</p>
+
+<body onload = 'init()'>
+    <p>给body绑定了onclick事件</p>
+    <p>点击body</p>
+    <p>在控制台输出this的值</p>
+    <script>
+    var obj = {
+          name:'xiaobo',
+          age:'23'
+        };
+    function init() {
+        var obj2 = {
+          name:'xiaobo2',
+          age:'25'
+        }
+        document.body.addEventListener('click',function(){
+          console.log(this);
+          console.log(obj2);
+          console.log(obj);
+        })
+    }
+        // function init() {
+        //     document.body.onclick = function() {
+        //         console.log(this)
+        //     }.bind(obj);
+        // }
+    </script>
 </body>
+
 </html>
