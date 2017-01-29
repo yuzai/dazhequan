@@ -15,7 +15,7 @@ let form1 = `<form id='form1'>
   <span id='success'></span>
 </form>`;
 //
-let logout = `<h1>logout</h1>`;
+let logout = `<h1>logout</h1><span id='success'></span>`;
 let home = `<h1>welcome</h1>`;
 let passwarn = `*两次密码不一致`;
 let userwarn = `*用户名已存在`;
@@ -26,8 +26,32 @@ let router = new win.router();
 //获取页面更改的元素
 let page = document.getElementById('page');
 
+//检测用户是否登录
+function testlogin(){
+  if(localStorage.sign_in==='true'){
+    return true;
+  }else {
+    return false;
+  }
+}
+
 //注册主页路由事件
 router.route('/',function(){
+  let menulist = document.getElementById('menu-list');
+  if(testlogin()){
+    let mainlist = `
+    <li><a href="#/post">发布</a></li>
+    <li><a href="#/logout">登出</a></li>
+    `;
+    menulist.innerHTML = mainlist;
+  }else {
+    console.log(false)
+    let mainlist = `
+    <li><a href="#/register">注册</a></li>
+    <li><a href="#/login">登录</a></li>
+    `;
+    menulist.innerHTML = mainlist;
+  }
   //从服务器端获取商家发布的新信息
   method.ajax(null,'http://localhost:8081/','post',function(responseText){
     let infos = JSON.parse(responseText);
@@ -72,7 +96,8 @@ router.route('/login',function(){
             document.getElementById('userwarn').innerHTML='';
             document.getElementById('success').innerHTML='';
           }else if(responseText === 'yes'){
-            localStorage.sign_in = 'true';
+            localStorage.sign_in = true;
+            localStorage.username = username;
             let time = 3;
             document.getElementById('success').innerHTML='注册成功，'+(time-1)+'s后返回首页';
             let s = setInterval(function(){
@@ -113,6 +138,9 @@ router.route('/register',function(){
                   if(responseText === 'no'){
                     document.getElementById('userwarn').innerHTML=userwarn;
                   }else if(responseText === 'yes'){
+                    localStorage.sign_in = true;
+                    localStorage.username = username;
+
                     let time = 3;
                     document.getElementById('success').innerHTML='登录成功，'+(time-1)+'s后返回首页';
                     let s = setInterval(function(){
@@ -144,7 +172,75 @@ router.route('/register',function(){
 //注册登出页面的路由
 router.route('/logout',function(){
   page.innerHTML = logout;
+  localStorage.sign_in = false;
+  let time = 3;
+  document.getElementById('success').innerHTML='登出成功，'+(time-1)+'s后返回首页';
+  let s = setInterval(function(){
+    time--;
+    if(time===0){
+      clearInterval(s);
+      location.hash = '#/';
+    }
+    document.getElementById('success').innerHTML='登出成功，'+(time-1)+'s后返回首页';
+  },1000);
 });
+
+//发布页面的路由
+let post = `
+<form id='form3'>
+  <textarea name='info' placeHolder='想要发布的打折信息'></textarea><br>
+  <button id='cancel'>取消</cancel></button><input type='submit' value = '发布'><br>
+  <span id='success'></span>
+</form>
+`
+router.route('/post',function(){
+  let menulist = document.getElementById('menu-list');
+  if(testlogin()){
+    let mainlist = `
+    <li><a href="#/post">发布</a></li>
+    <li><a href="#/logout">登出</a></li>
+    `;
+    menulist.innerHTML = mainlist;
+    page.innerHTML = post;
+    let form = document.getElementById('form3');
+    method.addevent(form,'submit',function(form){
+      event.preventDefault();
+      document.getElementById('success').innerHTML='已提交至服务器，请耐心等待';
+      method.ajax(JSON.stringify({'username':localStorage.username,'info':this.info.value,'time':(new Date()).toLocaleString()}),'http://localhost:8081/post','post',function(responseText){
+        if(responseText==='yes'){
+          let time = 3;
+          document.getElementById('success').innerHTML='发布成功，'+(time-1)+'s后返回首页';
+          let s = setInterval(function(){
+            time--;
+            if(time===0){
+              clearInterval(s);
+              location.hash = '#/';
+            }
+            document.getElementById('success').innerHTML='发布成功，'+(time-1)+'s后返回首页';
+          },1000);
+        }
+      });
+    })
+  }else {
+    let mainlist = `
+    <li><a href="#/register">注册</a></li>
+    <li><a href="#/login">登录</a></li>
+    `;
+    menulist.innerHTML = mainlist;
+    page.innerHTML = `<h1>您尚未登录</h1><span id='success'></span>`;
+    let time = 3;
+    document.getElementById('success').innerHTML='尚未登录，'+(time-1)+'s后返回首页';
+    let s = setInterval(function(){
+      time--;
+      if(time===0){
+        clearInterval(s);
+        location.hash = '#/login';
+      }
+      document.getElementById('success').innerHTML='尚未登录，'+(time-1)+'s后返回首页';
+    },1000);
+  }
+
+})
 
 //初始化页面路由
 router.init();

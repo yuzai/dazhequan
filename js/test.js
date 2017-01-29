@@ -6,7 +6,7 @@
   //定义登录页面的DOM结构
   var form1 = '<form id=\'form1\'>\n  <label for=\'username\'>\u7528\u6237\u540D\uFF1A</label><input name=\'username\' type=\'text\' id=\'username\' placeHolder=\'username\'/><span id=\'userwarn\'></span><br>\n  <label for=\'password\'>\u5BC6&nbsp\u7801\uFF1A</label><input name = \'password\' type=\'password\' id=\'password\' /><span id=\'passwarn\'></span><br>\n  <input type=\'submit\' value=\'submit\' /><br>\n  <span id=\'success\'></span>\n</form>';
   //
-  var logout = '<h1>logout</h1>';
+  var logout = '<h1>logout</h1><span id=\'success\'></span>';
   var home = '<h1>welcome</h1>';
   var passwarn = '*\u4E24\u6B21\u5BC6\u7801\u4E0D\u4E00\u81F4';
   var userwarn = '*\u7528\u6237\u540D\u5DF2\u5B58\u5728';
@@ -17,8 +17,26 @@
   //获取页面更改的元素
   var page = document.getElementById('page');
 
+  //检测用户是否登录
+  function testlogin() {
+    if (localStorage.sign_in === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //注册主页路由事件
   router.route('/', function () {
+    var menulist = document.getElementById('menu-list');
+    if (testlogin()) {
+      var mainlist = '\n    <li><a href="#/post">\u53D1\u5E03</a></li>\n    <li><a href="#/logout">\u767B\u51FA</a></li>\n    ';
+      menulist.innerHTML = mainlist;
+    } else {
+      console.log(false);
+      var _mainlist = '\n    <li><a href="#/register">\u6CE8\u518C</a></li>\n    <li><a href="#/login">\u767B\u5F55</a></li>\n    ';
+      menulist.innerHTML = _mainlist;
+    }
     //从服务器端获取商家发布的新信息
     method.ajax(null, 'http://localhost:8081/', 'post', function (responseText) {
       var infos = JSON.parse(responseText);
@@ -59,7 +77,8 @@
             document.getElementById('success').innerHTML = '';
           } else if (responseText === 'yes') {
             (function () {
-              localStorage.sign_in = 'true';
+              localStorage.sign_in = true;
+              localStorage.username = username;
               var time = 3;
               document.getElementById('success').innerHTML = '注册成功，' + (time - 1) + 's后返回首页';
               var s = setInterval(function () {
@@ -104,6 +123,9 @@
               document.getElementById('userwarn').innerHTML = userwarn;
             } else if (responseText === 'yes') {
               (function () {
+                localStorage.sign_in = true;
+                localStorage.username = username;
+
                 var time = 3;
                 document.getElementById('success').innerHTML = '登录成功，' + (time - 1) + 's后返回首页';
                 var s = setInterval(function () {
@@ -134,6 +156,65 @@
   //注册登出页面的路由
   router.route('/logout', function () {
     page.innerHTML = logout;
+    localStorage.sign_in = false;
+    var time = 3;
+    document.getElementById('success').innerHTML = '登出成功，' + (time - 1) + 's后返回首页';
+    var s = setInterval(function () {
+      time--;
+      if (time === 0) {
+        clearInterval(s);
+        location.hash = '#/';
+      }
+      document.getElementById('success').innerHTML = '登出成功，' + (time - 1) + 's后返回首页';
+    }, 1000);
+  });
+
+  //发布页面的路由
+  var post = '\n<form id=\'form3\'>\n  <textarea name=\'info\' placeHolder=\'\u60F3\u8981\u53D1\u5E03\u7684\u6253\u6298\u4FE1\u606F\'></textarea><br>\n  <button id=\'cancel\'>\u53D6\u6D88</cancel></button><input type=\'submit\' value = \'\u53D1\u5E03\'><br>\n  <span id=\'success\'></span>\n</form>\n';
+  router.route('/post', function () {
+    var menulist = document.getElementById('menu-list');
+    if (testlogin()) {
+      var mainlist = '\n    <li><a href="#/post">\u53D1\u5E03</a></li>\n    <li><a href="#/logout">\u767B\u51FA</a></li>\n    ';
+      menulist.innerHTML = mainlist;
+      page.innerHTML = post;
+      var form = document.getElementById('form3');
+      method.addevent(form, 'submit', function (form) {
+        event.preventDefault();
+        document.getElementById('success').innerHTML = '已提交至服务器，请耐心等待';
+        method.ajax(JSON.stringify({ 'username': localStorage.username, 'info': this.info.value, 'time': new Date().toLocaleString() }), 'http://localhost:8081/post', 'post', function (responseText) {
+          if (responseText === 'yes') {
+            (function () {
+              var time = 3;
+              document.getElementById('success').innerHTML = '发布成功，' + (time - 1) + 's后返回首页';
+              var s = setInterval(function () {
+                time--;
+                if (time === 0) {
+                  clearInterval(s);
+                  location.hash = '#/';
+                }
+                document.getElementById('success').innerHTML = '发布成功，' + (time - 1) + 's后返回首页';
+              }, 1000);
+            })();
+          }
+        });
+      });
+    } else {
+      (function () {
+        var mainlist = '\n    <li><a href="#/register">\u6CE8\u518C</a></li>\n    <li><a href="#/login">\u767B\u5F55</a></li>\n    ';
+        menulist.innerHTML = mainlist;
+        page.innerHTML = '<h1>\u60A8\u5C1A\u672A\u767B\u5F55</h1><span id=\'success\'></span>';
+        var time = 3;
+        document.getElementById('success').innerHTML = '尚未登录，' + (time - 1) + 's后返回首页';
+        var s = setInterval(function () {
+          time--;
+          if (time === 0) {
+            clearInterval(s);
+            location.hash = '#/login';
+          }
+          document.getElementById('success').innerHTML = '尚未登录，' + (time - 1) + 's后返回首页';
+        }, 1000);
+      })();
+    }
   });
 
   //初始化页面路由

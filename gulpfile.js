@@ -1,6 +1,18 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     babel = require('gulp-babel');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
+
+//静态服务器
+gulp.task('browser-sync',function(){
+  browserSync.init({
+    server:{
+      baseDir:"./",
+    }
+  });
+  gulp.watch(['index.html','css/*.css','js/*.js'],reload);
+});
 
 gulp.task('testsass',function(){
 	gulp.src('sass/style.scss')
@@ -20,7 +32,7 @@ gulp.task('babel',function(){
 gulp.task('babel:watch',function(){
 	gulp.watch('js/es6/test.js',['babel']);
 })
-gulp.task('default',['sass:watch','babel:watch']);
+gulp.task('default',['sass:watch','babel:watch','browser-sync']);
 
 //导入工具包 require('node_modules里对应模块')
 // var gulp = require('gulp'), //本地安装gulp所用到的地方
