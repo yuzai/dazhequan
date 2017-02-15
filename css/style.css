@@ -1,50 +1,12 @@
-@charset "UTF-8";
-html {
-  overflow-y: scroll; }
-
-body {
-  margin: 0;
-  padding: 29px00;
-  font: 12px "宋体", sans-serif;
-  background: #ffffff; }
-
-div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, p {
-  padding: 0;
-  margin: 0; }
-
-table, td, tr, th {
-  font-size: 12px; }
-
-li {
-  list-style-type: none; }
-
-img {
-  vertical-align: top;
-  border: 0; }
-
-ol, ul {
-  list-style: none; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: 12px;
-  font-weight: normal; }
-
-address, cite, code, em, th {
-  font-weight: normal;
-  font-style: normal; }
-
-body {
-  padding-left: 20%;
-  padding-right: 20%;
-  padding-top: 10px; }
-
 div#page {
   margin: auto;
   width: 70%; }
 
 .dropdown {
   position: relative;
-  float: right; }
+  float: right;
+  margin-right: 10%;
+  margin-top: 10px; }
 
 .dropdown-menu {
   position: absolute;
@@ -54,6 +16,7 @@ div#page {
   display: none;
   float: left;
   width: 100%;
+  min-width: 20px;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;

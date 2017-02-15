@@ -20,6 +20,7 @@
   //检测用户是否登录
   function testlogin() {
     if (localStorage.sign_in === 'true') {
+
       return true;
     } else {
       return false;
@@ -43,7 +44,7 @@
       var s = '1';
       var list = '<div>';
       infos.forEach(function (data) {
-        list += '\n      <div>\n      <h1>' + data.username + '</h1>\n      <p>' + data.info + '</p>\n      <p>' + data.time + '</p><br>\n      </div>';
+        list += '\n      <div>\n      <h1>' + data.username + '</h1>\n      <p style=\'padding-left:10%;\'>' + data.info + '</p>\n      <p style=\'text-align:right;\'>' + data.time + '</p><br>\n      </div>';
       });
       list += '</div>';
       //将新信息写入page中，整个页面中，打折圈三个字是不变的，别的都是改变的
@@ -78,7 +79,7 @@
           } else if (responseText === 'yes') {
             (function () {
               localStorage.sign_in = true;
-              localStorage.username = username;
+              // localStorage.username = username;
               var time = 3;
               document.getElementById('success').innerHTML = '注册成功，' + (time - 1) + 's后返回首页';
               var s = setInterval(function () {
@@ -99,14 +100,11 @@
 
   //绑定注册页面的路由
   router.route('/register', function () {
-    var _this = this;
-
     //先显示注册页面的form表单
     page.innerHTML = form0;
     var form = document.getElementById('form0');
     //对form绑定submit事件
     method.addevent(form, 'submit', function (event) {
-      console.log(_this);
       event.preventDefault();
       var form = event.target;
       var username = form.username.value;
@@ -119,13 +117,15 @@
           document.getElementById('success').innerHTML = '已提交至服务器，请耐心等待';
           //从服务器端检验进行
           method.ajax(JSON.stringify({ 'username': username, 'password': password1 }), 'http://localhost:8081/register', 'post', function (responseText) {
-            if (responseText === 'no') {
+            var info = JSON.parse(responseText);
+            console.log(info);
+            if (info.right === 'no') {
               document.getElementById('userwarn').innerHTML = userwarn;
-            } else if (responseText === 'yes') {
+            } else if (info.right === 'yes') {
               (function () {
                 localStorage.sign_in = true;
-                localStorage.username = username;
-
+                // localStorage.username = username;
+                localStorage.token = info.token;
                 var time = 3;
                 document.getElementById('success').innerHTML = '登录成功，' + (time - 1) + 's后返回首页';
                 var s = setInterval(function () {
@@ -181,7 +181,7 @@
       method.addevent(form, 'submit', function (form) {
         event.preventDefault();
         document.getElementById('success').innerHTML = '已提交至服务器，请耐心等待';
-        method.ajax(JSON.stringify({ 'username': localStorage.username, 'info': this.info.value, 'time': new Date().toLocaleString() }), 'http://localhost:8081/post', 'post', function (responseText) {
+        method.ajax(JSON.stringify({ 'token': localStorage.token, 'info': this.info.value, 'time': new Date().toLocaleString() }), 'http://localhost:8081/post', 'post', function (responseText) {
           if (responseText === 'yes') {
             (function () {
               var time = 3;
@@ -195,6 +195,9 @@
                 document.getElementById('success').innerHTML = '发布成功，' + (time - 1) + 's后返回首页';
               }, 1000);
             })();
+          } else {
+            alert('用户未登陆');
+            location.hash = '#/login';
           }
         });
       });

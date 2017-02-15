@@ -1,10 +1,9 @@
-@import 'normal';
 
-body{
-  padding-left:20%;
-  padding-right:20%;
-  padding-top:10px;
-}
+// body{
+//   padding-left:20%;
+//   padding-right:20%;
+//   padding-top:10px;
+// }
 //居中
 div#page{
   margin:auto;
@@ -14,6 +13,8 @@ div#page{
 .dropdown {
   position: relative;
   float:right;
+  margin-right:10%;
+  margin-top:10px;
 }
 //dropdown-menu
 .dropdown-menu {
@@ -24,6 +25,7 @@ div#page{
   display: none;
   float: left;
   width: 100%;
+  min-width:20px;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
